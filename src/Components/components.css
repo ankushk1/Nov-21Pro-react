@@ -1,0 +1,10 @@
+.user-info{
+  background-color: rgb(203, 86, 86);
+  margin-top: 20px;
+  color: aliceblue;
+
+}
+
+.user-info:first-child{
+margin-top: 0;
+}
