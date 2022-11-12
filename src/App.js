@@ -15,6 +15,10 @@ import UseCallback from "./Components/UseCallback";
 import UseForm from "./Components/UseForm";
 import NewForm from "./Components/NewForm";
 import UseFetchHook from "./Components/UseFetchHook";
+import CounterComp from "./HOC/CounterComp";
+import HoverComp from "./HOC/HoverComp";
+import RenderPosts from "./HOC/RenderPosts";
+import RenderTodos from "./HOC/RenderTodos";
 
 export const messageContext = createContext(null);
 function App() {
@@ -42,7 +46,11 @@ function App() {
       {/* <UseCallback/> */}
       {/* <UseForm /> <br /><br />
       <NewForm /> */}
-      <UseFetchHook/>
+      {/* <UseFetchHook/> */}
+      {/* <CounterComp name="ABC"/>
+      <HoverComp/> */}
+      {/* <RenderPosts/>
+      <RenderTodos/> */}
     </div>
   );
 }
