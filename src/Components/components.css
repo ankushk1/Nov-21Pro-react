@@ -8,3 +8,16 @@
 .user-info:first-child{
 margin-top: 0;
 }
+
+
+.nav-active {
+  border-bottom: 2px solid rgb(104, 182, 237);
+  color:rgb(16, 93, 152) ;
+  background-color: white;
+  text-decoration: none;
+}
+
+.nav-inactive {
+  color:rgb(0, 0, 0) ;
+  text-decoration: none;
+}

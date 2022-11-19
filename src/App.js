@@ -19,6 +19,7 @@ import CounterComp from "./HOC/CounterComp";
 import HoverComp from "./HOC/HoverComp";
 import RenderPosts from "./HOC/RenderPosts";
 import RenderTodos from "./HOC/RenderTodos";
+import Todo from "./Components/Todo";
 
 export const messageContext = createContext(null);
 function App() {
@@ -51,6 +52,7 @@ function App() {
       <HoverComp/> */}
       {/* <RenderPosts/>
       <RenderTodos/> */}
+      <Todo />
     </div>
   );
 }
