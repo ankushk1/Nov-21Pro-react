@@ -1,15 +1,25 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import TodoDetails from "./TodoDetails";
 
 const Todo = () => {
+  const ALL = "ALL";
+  const PENDING = "PENDING";
+  const COMPLETED = "COMPLETED";
+
   const [input, setInput] = useState("");
-  const [todoArr, setTodoArr] = useState([]);
+  const [todoArr, setTodoArr] = useState(() => {
+    const todosFromLC = JSON.parse(localStorage.getItem('todos')) ?? []
+    return todosFromLC
+  });
+
   const [isEditing, setIsEditing] = useState({
     edit: false,
     todoId: ""
   });
-
+  const [filter, setFilter] = useState("ALL");
   const onAddHandler = () => {
     if (!input) return;
     // const newObj = {
@@ -19,7 +29,10 @@ const Todo = () => {
     // const cloneArr = todoArr
     // cloneArr.push(newObj)
     // setTodoArr(cloneArr)
-    setTodoArr([...todoArr, { id: uuidv4().split("-")[0], text: input }]);
+    setTodoArr([
+      ...todoArr,
+      { id: uuidv4().split("-")[0], text: input, completed: false }
+    ]);
     setInput("");
   };
 
@@ -39,15 +52,82 @@ const Todo = () => {
 
   const onUpdateHandler = () => {
     const todoIndex = todoArr.findIndex((elem) => elem.id == isEditing.todoId);
+    const elemAtIndex = todoArr[todoIndex]
     const updatedArr = [...todoArr];
     updatedArr[todoIndex] = {
       id: isEditing.todoId,
-      text: input
+      text: input,
+      completed: elemAtIndex.completed
     };
-    setTodoArr(updatedArr)
-    setIsEditing({edit: false, todoId : ""})
-    setInput('');
+    setTodoArr(updatedArr);
+    setIsEditing({ edit: false, todoId: "" });
+    setInput("");
   };
+
+  const onCompleteHandler = (todo) => {
+    const todoIndex = todoArr.findIndex((elem) => elem.id == todo.id);
+    const updatedArr = [...todoArr];
+    updatedArr[todoIndex] = {
+      ...todo,
+      completed: !todo.completed
+    };
+    setTodoArr(updatedArr);
+  };
+
+  const getAllTodos = () => {
+    return (
+      todoArr.length > 0 &&
+      todoArr.map((todo) => (
+        <TodoDetails
+          key={todo.id}
+          todo={todo}
+          onDeleteHandler={onDeleteHandler}
+          onEditHandler={onEditHandler}
+          onCompleteHandler={onCompleteHandler}
+        />
+      ))
+    );
+  };
+
+  const getCompletedTodos = () => {
+    return (
+      todoArr.length > 0 &&
+      todoArr.map(
+        (todo) =>
+          todo.completed && (
+            <TodoDetails
+              key={todo.id}
+              todo={todo}
+              onDeleteHandler={onDeleteHandler}
+              onEditHandler={onEditHandler}
+              onCompleteHandler={onCompleteHandler}
+            />
+          )
+      )
+    );
+  };
+
+  const getPendingTodos = () => {
+    return (
+      todoArr.length > 0 &&
+      todoArr.map(
+        (todo) =>
+          !todo.completed && (
+            <TodoDetails
+              key={todo.id}
+              todo={todo}
+              onDeleteHandler={onDeleteHandler}
+              onEditHandler={onEditHandler}
+              onCompleteHandler={onCompleteHandler}
+            />
+          )
+      )
+    );
+  };
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todoArr))
+  }, [todoArr])
 
   return (
     <div className="container">
@@ -74,27 +154,30 @@ const Todo = () => {
           </button>
         )}
       </div>
+      <div className="my-3 d-flex justify-content-evenly">
+        <button
+          onClick={() => setFilter(ALL)}
+          className={`${filter === ALL ? "btn-success" : ""} btn`}
+        >
+          All
+        </button>
+        <button
+          onClick={() => setFilter(COMPLETED)}
+          className={`${filter === COMPLETED ? "btn-success" : ""} btn`}
+        >
+          Completed
+        </button>
+        <button
+          onClick={() => setFilter(PENDING)}
+          className={`${filter === PENDING ? "btn-success" : ""} btn`}
+        >
+          Pending
+        </button>
+      </div>
       <div className="row mt-3 d-flex justify-content-center ms-5">
-        {todoArr.length > 0 &&
-          todoArr.map((todo) => (
-            <>
-              <div className="fs-5 col-5 text-start ms-5">{todo.text}</div>
-              <div className="col me-5 mb-2">
-                <button
-                  className="btn btn-info me-3 btn-sm"
-                  onClick={() => onEditHandler(todo.id, todo.text)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => onDeleteHandler(todo.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </>
-          ))}
+        {filter === ALL && getAllTodos()}
+        {filter === COMPLETED && getCompletedTodos()}
+        {filter === PENDING && getPendingTodos()}
       </div>
     </div>
   );
