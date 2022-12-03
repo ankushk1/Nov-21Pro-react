@@ -3,17 +3,31 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import TodoDetails from "./TodoDetails";
+import { useSelector, useDispatch } from "react-redux";
+import { setTodos } from "../actions/counterActions";
 
 const Todo = () => {
   const ALL = "ALL";
   const PENDING = "PENDING";
   const COMPLETED = "COMPLETED";
+  const todos = useSelector((state) => {
+    // console.log(state);
+    return state.todoData.todos
+  });
+  const dispatch = useDispatch();
 
   const [input, setInput] = useState("");
-  const [todoArr, setTodoArr] = useState(() => {
-    const todosFromLC = JSON.parse(localStorage.getItem('todos')) ?? []
-    return todosFromLC
-  });
+  const [todoArr, setTodoArr] = useState(
+    //   () => {
+    //   const todosFromLC = JSON.parse(localStorage.getItem('todos')) ?? []
+    //   return todosFromLC
+    // }
+    []
+  );
+
+  useEffect(() => {
+    setTodoArr(todos);
+  }, [todos]);
 
   const [isEditing, setIsEditing] = useState({
     edit: false,
@@ -52,7 +66,7 @@ const Todo = () => {
 
   const onUpdateHandler = () => {
     const todoIndex = todoArr.findIndex((elem) => elem.id == isEditing.todoId);
-    const elemAtIndex = todoArr[todoIndex]
+    const elemAtIndex = todoArr[todoIndex];
     const updatedArr = [...todoArr];
     updatedArr[todoIndex] = {
       id: isEditing.todoId,
@@ -126,8 +140,9 @@ const Todo = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todoArr))
-  }, [todoArr])
+    // localStorage.setItem('todos', JSON.stringify(todoArr))
+    dispatch(setTodos(todoArr));
+  }, [todoArr]);
 
   return (
     <div className="container">

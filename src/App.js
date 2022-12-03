@@ -20,6 +20,7 @@ import HoverComp from "./HOC/HoverComp";
 import RenderPosts from "./HOC/RenderPosts";
 import RenderTodos from "./HOC/RenderTodos";
 import Todo from "./Components/Todo";
+import CounterRedux from "./Components/CounterRedux";
 
 export const messageContext = createContext(null);
 function App() {
@@ -53,6 +54,7 @@ function App() {
       {/* <RenderPosts/>
       <RenderTodos/> */}
       <Todo />
+      {/* <CounterRedux/> */}
     </div>
   );
 }
