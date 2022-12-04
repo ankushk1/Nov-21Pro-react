@@ -1,18 +1,19 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
-import Contact from "./Pages/Contact";
-import Home from "./Pages/Home";
-import Signup from "./Pages/Signup";
-
+import Signin from "./ProductsApp/Users/Signin";
+import Signup from "./ProductsApp/Users/Signup";
+import { ToastContainer, toast } from 'react-toastify';
+import ProductsList from "./ProductsApp/Products/ProductsList";
 const RouterComp = () => {
   return (
     <div className="text-center">
-      <Navbar />
+      {/* <Navbar /> */}
+      <ToastContainer/>
       <Routes>
-        <Route path="/:id/:name" element={<Home />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Signup/>} />
+        <Route path="/signin" element={<Signin/>} />
+        <Route path="/products" element={<ProductsList/>} />
       </Routes>
     </div>
   );
