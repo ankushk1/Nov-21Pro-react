@@ -1,6 +1,5 @@
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const success = (message, duration = 3000) => {
   toast.success(message, {
@@ -11,9 +10,9 @@ export const success = (message, duration = 3000) => {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "light",
-    });
-}
+    theme: "light"
+  });
+};
 
 export const error = (message, duration = 3000) => {
   toast.error(message, {
@@ -24,6 +23,6 @@ export const error = (message, duration = 3000) => {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "light",
-    });
-}
+    theme: "light"
+  });
+};

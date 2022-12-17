@@ -15,7 +15,8 @@ export const useForm = () => {
   return {
     values,
     onInputChange,
-    onSubmit
+    onSubmit,
+    setValues
   };
 };
 
